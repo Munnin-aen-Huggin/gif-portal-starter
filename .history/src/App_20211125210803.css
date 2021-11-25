@@ -90,7 +90,7 @@
 .gif-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  grid-gap: 1.2ret;
+  grid-gap: 1.0ret;
   justify-items: center;
   margin: 0;
   padding: 0;
