@@ -66,7 +66,7 @@ const App = () => {
 
   //connected render 
   
-const renderConnectedContainer = () => (
+const rene\derConnectedContainer = () => (
   <div className="Connected-container">
     <div className="gif-grid">
       {TEST_GIFS.map(gif =>(
