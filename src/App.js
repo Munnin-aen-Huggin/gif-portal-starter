@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
+import idl from './idl.json';
+import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
+import { Program, Provider, web3 } from '@project-serum/anchor';
+import { publicKey } from '@project-serum/anchor/dist/cjs/utils';
+
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -12,8 +17,25 @@ const TEST_GIFS = [
   'https://media.giphy.com/media/XEdgJpPEZPDqI2HVm3/giphy.gif',
   'https://media.giphy.com/media/1AjEeS0UFnj6DzaDbz/giphy.gif',
   'https://media.giphy.com/media/Y3HUh2JiXrjPulXkN1/giphy.gif'
-
+np
 ]
+//Reference to solana runtime library
+const { SystemProgram, Keypair } = web3;
+
+//Create a keypair to hold gif data
+let baseAccount = Keypair.generate();
+
+//Get program ID's from the IDL file
+const programID = new publicKey(idl.metadata.address);
+
+//Set network to devnet 
+const network = clusterApiUrl('devnet');
+
+//Control tx success acknowledgement
+const opts = {
+  preflightCommitment: 'processed'
+}
+
 
 const App = () => {
   // State
@@ -62,6 +84,35 @@ const App = () => {
     setInputValue(value);
   };
 
+const getProvider = () => {
+  const connection = new Connection(network, opts.preflightCommitment);
+  const provider = new Provider(
+    connection, window.solana, opts.preflightCommitment,
+  );
+  return provider;
+}
+// Get gifList
+const getGifList = async() => {
+  try {
+    const provider = getProvider();
+    const program = new Program(idl, programID, provider);
+    const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+    
+    console.log("Got the account", account)
+    setGifList(account.gifList)
+
+  } catch (error) {
+    console.log("Error in getGifList: ", error)
+    setGifList(null);
+  }
+}
+
+useEffect(() => {
+  if (walletAddress) {
+    console.log('Fetching GIF list...');
+    getGifList()
+  }
+}, [walletAddress]);
   const sendGif = async () => {
     if (inputValue.length > 0) {
       console.log('Gif link', inputValue);
