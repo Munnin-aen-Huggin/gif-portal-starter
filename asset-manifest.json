@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/%7BCFC-SOL-Dapp%7D/static/css/main.5f01ab23.chunk.css",
+    "main.js": "/%7BCFC-SOL-Dapp%7D/static/js/main.eade624c.chunk.js",
+    "main.js.map": "/%7BCFC-SOL-Dapp%7D/static/js/main.eade624c.chunk.js.map",
+    "runtime-main.js": "/%7BCFC-SOL-Dapp%7D/static/js/runtime-main.cf7123fd.js",
+    "runtime-main.js.map": "/%7BCFC-SOL-Dapp%7D/static/js/runtime-main.cf7123fd.js.map",
+    "static/js/2.0bcf4adb.chunk.js": "/%7BCFC-SOL-Dapp%7D/static/js/2.0bcf4adb.chunk.js",
+    "static/js/2.0bcf4adb.chunk.js.map": "/%7BCFC-SOL-Dapp%7D/static/js/2.0bcf4adb.chunk.js.map",
+    "index.html": "/%7BCFC-SOL-Dapp%7D/index.html",
+    "precache-manifest.1477bc9b9463f4aa8dab7df9298839d9.js": "/%7BCFC-SOL-Dapp%7D/precache-manifest.1477bc9b9463f4aa8dab7df9298839d9.js",
+    "service-worker.js": "/%7BCFC-SOL-Dapp%7D/service-worker.js",
+    "static/css/main.5f01ab23.chunk.css.map": "/%7BCFC-SOL-Dapp%7D/static/css/main.5f01ab23.chunk.css.map",
+    "static/js/2.0bcf4adb.chunk.js.LICENSE.txt": "/%7BCFC-SOL-Dapp%7D/static/js/2.0bcf4adb.chunk.js.LICENSE.txt",
+    "static/media/twitter-logo.svg": "/%7BCFC-SOL-Dapp%7D/static/media/twitter-logo.5c97ee2a.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cf7123fd.js",
+    "static/js/2.0bcf4adb.chunk.js",
+    "static/css/main.5f01ab23.chunk.css",
+    "static/js/main.eade624c.chunk.js"
+  ]
+}
