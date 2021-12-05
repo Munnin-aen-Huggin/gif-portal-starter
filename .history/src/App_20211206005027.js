@@ -7,7 +7,7 @@ import {
 } from '@project-serum/anchor';
 
 import idl from './idl.json';
-import kp from './keypair.json'
+
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -24,9 +24,7 @@ const TEST_GIFS = [
 const { SystemProgram, Keypair } = web3;
 
 // Create a keypair for the account that will hold the GIF data.
-const arr = Object.values(kp._keypair.secretKey)
-const secret = new Uint8Array(arr)
-const baseAccount = web3.Keypair.fromSecretKey(secret)
+let baseAccount = Keypair.generate();
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);

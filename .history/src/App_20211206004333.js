@@ -7,7 +7,7 @@ import {
 } from '@project-serum/anchor';
 
 import idl from './idl.json';
-import kp from './keypair.json'
+
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -24,9 +24,7 @@ const TEST_GIFS = [
 const { SystemProgram, Keypair } = web3;
 
 // Create a keypair for the account that will hold the GIF data.
-const arr = Object.values(kp._keypair.secretKey)
-const secret = new Uint8Array(arr)
-const baseAccount = web3.Keypair.fromSecretKey(secret)
+let baseAccount = Keypair.generate();
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);
@@ -138,30 +136,13 @@ useEffect(() => {
     getGifList()
   }
 }, [walletAddress]);
-const sendGif = async () => {
-  if (inputValue.length === 0) {
-    console.log("No gif link given!")
-    return
-  }
-  setInputValue('');
-  console.log('Gif link:', inputValue);
-  try {
-    const provider = getProvider();
-    const program = new Program(idl, programID, provider);
-
-    await program.rpc.addGif(inputValue, {
-      accounts: {
-        baseAccount: baseAccount.publicKey,
-        user: provider.wallet.publicKey,
-      },
-    });
-    console.log("GIF successfully sent to program", inputValue)
-
-    await getGifList();
-  } catch (error) {
-    console.log("Error sending GIF:", error)
-  }
-};
+  const sendGif = async () => {
+    if (inputValue.length > 0) {
+      console.log('Gif link', inputValue);
+    }else {
+      console.log('Empty input. Try again.')
+    }
+  };
 
   const renderNotConnectedContainer = () => (
     <button
@@ -174,49 +155,28 @@ const sendGif = async () => {
 
   //connected render 
   
-  const renderConnectedContainer = () => {
-    // If we hit this, it means the program account hasn't been initialized.
-      if (gifList === null) {
-        return (
-          <div className="connected-container">
-            <button className="cta-button submit-gif-button" onClick={createGifAccount}>
-              Do One-Time Initialization For GIF Program Account
-            </button>
+const renderConnectedContainer = () => (
+  <div className="Connected-container">
+    {/* Input and Button*/}
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        sendGif();
+      }}
+      >
+        <input type="text" placeholder="Enter gif link" value={inputValue} onChange={onInputChange} />
+        <button type="submit" className="cta-button submit-gif-button" >Submit</button>
+      </form>
+    <div className="gif-grid">
+      {/*Map through gifList instead of TEST_GIFS*/}
+      {gifList.map(gif =>(
+        <div className="gif-item" key={gif}>
+          <img src={gif} alt={gif} />
           </div>
-        )
-      } 
-      // Otherwise, we're good! Account exists. User can submit GIFs.
-      else {
-        return(
-          <div className="connected-container">
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                sendGif();
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Enter gif link!"
-                value={inputValue}
-                onChange={onInputChange}
-              />
-              <button type="submit" className="cta-button submit-gif-button">
-                Submit
-              </button>
-            </form>
-            <div className="gif-grid">
-              {/* We use index as the key instead, also, the src is now item.gifLink */}
-              {gifList.map((item, index) => (
-                <div className="gif-item" key={index}>
-                  <img src={item.gifLink} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )
-      }
-    }
+      ))}
+    </div>
+  </div>
+);
 
   // UseEffects
   useEffect(() => {
